@@ -25,7 +25,7 @@
 #   }
 # }
 variable "name" {
-  description = "VRF Name"
+  description = "VRF Name."
   type        = string
 
   validation {
@@ -46,7 +46,7 @@ variable "description" {
 }
 
 variable "vni" {
-  description = "VRF VNI"
+  description = "VRF Virtual Network Identifier"
   type        = number
   default     = null
 
@@ -62,13 +62,13 @@ variable "route_distinguisher" {
   default     = null
 
   validation {
-    condition = "auto" == var.route_distinguisher || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", var.route_distinguisher)) || can(regex("\\d+:\\d+", var.route_distinguisher)
+    condition     = var.route_distinguisher == null || var.route_distinguisher == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", var.route_distinguisher)) || can(regex("\\d+:\\d+", var.route_distinguisher))
     error_message = "Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
   }
 }
 
 variable "address_family" {
-  description = "VRF Address Families"
+  description = "VRF Address Families. Valid values map keys are `ipv4_unicast`, `ipv6_unicast`."
   type = map(object({
     route_target_both_auto      = optional(bool)
     route_target_both_auto_evpn = optional(bool)
@@ -77,17 +77,43 @@ variable "address_family" {
     route_target_import_evpn    = optional(list(string))
     route_target_export_evpn    = optional(list(string))
   }))
-  # default = {
-  #   "ipv4_unicast" = {
-  #     "route_target_both_auto"      = true
-  #     "route_target_both_auto_evpn" = true
-  #     "route_target_import"         = ["1.1.1.1:1", "65535:1", "65536:123"]
-  #     "route_target_export"         = ["1.1.1.1:1", "65535:1", "65536:123"]
-  #     "route_target_import_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
-  #     "route_target_export_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
-  #   }
-  #   "ipv6_unicast" = {}
-  # }
   default = {}
+
+  validation {
+    condition = alltrue([
+      for k, v in var.address_family : contains(["ipv4_unicast", "ipv6_unicast"], k)
+    ])
+    error_message = "`address_family`: Valid values map keys are `ipv4_unicast`, `ipv6_unicast`."
+  }
+
+  validation {
+    condition = alltrue(flatten([
+      for k, v in var.address_family : v.route_target_import == null ? [true] : [
+        for entry in v.route_target_import : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
+      ]
+    ]))
+    error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  }
+
+  # validation {
+  #   condition = alltrue([
+  #     for k, v in var.address_family : v.route_target_export == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", v.route_target_export)) || can(regex("\\d+:\\d+", v.route_target_export))
+  #   ])
+  #   error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  # }
+
+  # validation {
+  #   condition = alltrue([
+  #     for k, v in var.address_family : v.route_target_import_evpn == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", v.route_target_import_evpn)) || can(regex("\\d+:\\d+", v.route_target_import_evpn))
+  #   ])
+  #   error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  # }
+
+  # validation {
+  #   condition = alltrue([
+  #     for k, v in var.address_family : v.route_target_export_evpn == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", v.route_target_export_evpn)) || can(regex("\\d+:\\d+", v.route_target_export_evpn))
+  #   ])
+  #   error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  # }
 }
 

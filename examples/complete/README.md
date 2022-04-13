@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Scaffolding Example
+# NX-OS VRF Example
 
 To run this example you need to execute:
 
@@ -12,13 +12,25 @@ $ terraform apply
 Note that this example will create resources. Resources can be destroyed with `terraform destroy`.
 
 ```hcl
-module "nxos_scaffolding" {
-  source  = "netascode/scaffolding/nxos"
+module "nxos_vrf" {
+  source  = "netascode/vrf/nxos"
   version = ">= 0.0.1"
 
-  id          = "eth1/10"
-  description = "My Description"
-  mode        = "trunk"
+  name                = "VRF1"
+  description         = "My Description"
+  vni                 = 16777210
+  route_distinguisher = "1.1.1.1:1"
+  address_family = {
+    "ipv4_unicast" = {
+      "route_target_both_auto"      = true
+      "route_target_both_auto_evpn" = true
+      "route_target_import"         = ["1.1.1.1:1", "65535:1", "65536:123"]
+      "route_target_export"         = ["1.1.1.1:1", "65535:1", "65536:123"]
+      "route_target_import_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
+      "route_target_export_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
+    }
+    "ipv6_unicast" = {}
+  }
 }
 ```
 <!-- END_TF_DOCS -->

@@ -3,13 +3,15 @@ version: '>= 0.14.0'
 formatter: markdown table
 
 content: |-
-  [![Tests](https://github.com/netascode/terraform-nxos-scaffolding/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-nxos-scaffolding/actions/workflows/test.yml)
+  [![Tests](https://github.com/netascode/terraform-nxos-vrf/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-nxos-vrf/actions/workflows/test.yml)
 
-  # Terraform NXOS Scaffolding Module
+  # Terraform NXOS VRF Module
 
   Description
 
-  Model Documentation: [Link](https://developer.cisco.com/docs/cisco-nexus-3000-and-9000-series-nx-api-rest-sdk-user-guide-and-api-reference-release-9-3x/#!configuring-an-ethernet-interface)
+  Manages NX-OS VRF
+
+  Model Documentation: [Link](https://developer.cisco.com/docs/cisco-nexus-3000-and-9000-series-nx-api-rest-sdk-user-guide-and-api-reference-release-9-3x/#!configuring-vrfs)
 
   ## Examples
 

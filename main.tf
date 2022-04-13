@@ -2,8 +2,6 @@ resource "nxos_vrf" "l3Inst" {
   name        = var.name
   description = var.description
   encap       = var.vni != null ? "vxlan-${var.vni}" : "unknown"
-  # encap       = var.vni != null ? "vxlan-1234" : "unknown"
-  # encap = "vxlan-16777210"
 }
 
 locals {
@@ -92,16 +90,39 @@ locals {
     "${entry.address_family}_${entry.address_family_rt}_${entry.direction}" => entry if length(entry.rt_set) > 0
   }
 
-  # Convert CLI RT format to DME RT format
+  # Route Target converter from CLI format to DME format
+  rt_helper = {
+    for k, v in local.address_family_map : k => [
+      for value in v.rt_set : {
+        "format_auto" = value == "auto" ? true : false
+        "format_ipv4" = can(regex("\\.", value)) ? true : false
+        "format_as2"  = !can(regex("\\.", value)) && can(regex(":", value)) ? (tonumber(split(":", value)[0]) <= 65535 ? true : false) : false
+        "format_as4"  = !can(regex("\\.", value)) && can(regex(":", value)) ? (tonumber(split(":", value)[0]) >= 65536 ? true : false) : false
+        "value"       = value
+      }
+    ]
+  }
+  rt_dme_format_map = {
+    for k, v in local.rt_helper : k => [
+      for entry in v :
+      entry.format_auto ? "route-target:unknown:0:0" : (
+        entry.format_ipv4 ? "route-target:ipv4-nn2:${entry.value}" : (
+          entry.format_as2 ? "route-target:as2-nn2:${entry.value}" : (
+            entry.format_as4 ? "route-target:as4-nn2:${entry.value}" : "unexpected_rt_format"
+      )))
+    ]
+  }
+
+  # Add DME formatted list of RT to the address_family_map
   address_family_map_dme = {
-    for key, value in local.address_family_map : key => merge(value, module.rt_converter[key])
+    for key, value in local.address_family_map : key => merge(value, { "rt_dme_format" : local.rt_dme_format_map[key] })
   }
 
   # loop for resource "nxos_vrf_route_target"
   address_family_flat_dme = {
     for entry in flatten([
       for key, value in local.address_family_map_dme : [
-        for rt in value.result : {
+        for rt in value.rt_dme_format : {
           "address_family"    = value.address_family
           "address_family_rt" = value.address_family_rt
           "direction"         = value.direction
@@ -110,12 +131,6 @@ locals {
         }
       ]
   ]) : entry.key => entry }
-}
-
-module "rt_converter" {
-  source   = "github.com/netascode/terraform-nxos-route-target-helper"
-  for_each = local.address_family_map
-  values   = each.value.rt_set
 }
 
 resource "nxos_vrf_address_family" "rtctrlDomAf" {

@@ -14,21 +14,33 @@ terraform {
 module "main" {
   source = "../.."
 
-  id = "eth1/10"
+  name = "VRF1"
 }
 
-data "nxos_rest" "l1PhysIf" {
-  dn = "sys/intf/phys-[eth1/10]"
+data "nxos_rest" "nxos_vrf" {
+  dn = "sys/inst-[VRF1]"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "l1PhysIf" {
-  component = "l1PhysIf"
+resource "test_assertions" "nxos_vrf" {
+  component = "nxos_vrf"
 
-  equal "id" {
-    description = "id"
-    got         = data.nxos_rest.l1PhysIf.content.id
-    want        = "eth1/10"
+  equal "name" {
+    description = "name"
+    got         = data.nxos_rest.nxos_vrf.content.name
+    want        = "VRF1"
+  }
+
+  equal "descr" {
+    description = "descr"
+    got         = data.nxos_rest.nxos_vrf.content.descr
+    want        = ""
+  }
+
+  equal "encap" {
+    description = "encap"
+    got         = data.nxos_rest.nxos_vrf.content.encap
+    want        = "unknown2"
   }
 }

@@ -52,13 +52,13 @@ resource "test_assertions" "nxos_vrf" {
   equal "name" {
     description = "name"
     got         = data.nxos_rest.nxos_vrf.content.name
-    want        = "VRF2"
+    want        = "VRF1"
   }
 
   equal "descr" {
     description = "descr"
     got         = data.nxos_rest.nxos_vrf.content.descr
-    want        = "My Description2"
+    want        = "My Description"
   }
 
   equal "encap" {
@@ -80,7 +80,7 @@ resource "test_assertions" "nxos_vrf_routing" {
   equal "rd" {
     description = "rd"
     got         = data.nxos_rest.nxos_vrf_routing.content.rd
-    want        = "VRF2"
+    want        = "rd:ipv4-nn2:1.1.1.1:1"
   }
 }
 
@@ -96,7 +96,7 @@ resource "test_assertions" "nxos_vrf_address_family" {
   equal "type" {
     description = "type"
     got         = data.nxos_rest.nxos_vrf_address_family.content.type
-    want        = "ipv4-ucasta"
+    want        = "ipv4-ucast"
   }
 }
 
@@ -118,13 +118,13 @@ resource "test_assertions" "nxos_vrf_route_target_address_family" {
   equal "type-ipv4-ucast" {
     description = "type-ipv4-ucast"
     got         = data.nxos_rest.nxos_vrf_route_target_address_family_ipv4.content.type
-    want        = "ipv4-ucast2"
+    want        = "ipv4-ucast"
   }
 
   equal "type-l2vpn-evpn" {
     description = "type-l2vpn-evpn"
     got         = data.nxos_rest.nxos_vrf_route_target_address_family_evpn.content.type
-    want        = "l2vpn-evpn3"
+    want        = "l2vpn-evpn"
   }
 }
 
@@ -140,7 +140,7 @@ resource "test_assertions" "nxos_vrf_route_target_direction" {
   equal "type" {
     description = "type"
     got         = data.nxos_rest.nxos_vrf_route_target_direction.content.type
-    want        = "import4"
+    want        = "import"
   }
 }
 
@@ -156,7 +156,7 @@ resource "test_assertions" "nxos_vrf_route_target" {
   equal "rtt" {
     description = "rtt"
     got         = data.nxos_rest.nxos_vrf_route_target.content.rtt
-    want        = "route-target:as2-nn2:65000:12"
+    want        = "route-target:as2-nn2:65000:1"
   }
 }
 

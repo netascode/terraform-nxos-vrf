@@ -95,25 +95,31 @@ variable "address_family" {
     error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
   }
 
-  # validation {
-  #   condition = alltrue([
-  #     for k, v in var.address_family : v.route_target_export == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", v.route_target_export)) || can(regex("\\d+:\\d+", v.route_target_export))
-  #   ])
-  #   error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
-  # }
+  validation {
+    condition = alltrue(flatten([
+      for k, v in var.address_family : v.route_target_export == null ? [true] : [
+        for entry in v.route_target_export : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
+      ]
+    ]))
+    error_message = "`route_target_export`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  }
 
-  # validation {
-  #   condition = alltrue([
-  #     for k, v in var.address_family : v.route_target_import_evpn == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", v.route_target_import_evpn)) || can(regex("\\d+:\\d+", v.route_target_import_evpn))
-  #   ])
-  #   error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
-  # }
+  validation {
+    condition = alltrue(flatten([
+      for k, v in var.address_family : v.route_target_import_evpn == null ? [true] : [
+        for entry in v.route_target_import_evpn : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
+      ]
+    ]))
+    error_message = "`route_target_import_evpn`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  }
 
-  # validation {
-  #   condition = alltrue([
-  #     for k, v in var.address_family : v.route_target_export_evpn == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", v.route_target_export_evpn)) || can(regex("\\d+:\\d+", v.route_target_export_evpn))
-  #   ])
-  #   error_message = "`route_target_import`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
-  # }
+  validation {
+    condition = alltrue(flatten([
+      for k, v in var.address_family : v.route_target_export_evpn == null ? [true] : [
+        for entry in v.route_target_export_evpn : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
+      ]
+    ]))
+    error_message = "`route_target_export_evpn`: Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
+  }
 }
 

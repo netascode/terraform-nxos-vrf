@@ -41,6 +41,6 @@ resource "test_assertions" "nxos_vrf" {
   equal "encap" {
     description = "encap"
     got         = data.nxos_rest.nxos_vrf.content.encap
-    want        = "unknown2"
+    want        = "unknown"
   }
 }

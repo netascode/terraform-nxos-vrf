@@ -67,6 +67,7 @@ module "nxos_vrf" {
 
 | Name | Type |
 |------|------|
+| [nxos_ipv4_vrf.ipv4Dom](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/ipv4_vrf) | resource |
 | [nxos_vrf.l3Inst](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf) | resource |
 | [nxos_vrf_address_family.rtctrlDomAf](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_address_family) | resource |
 | [nxos_vrf_route_target.rtctrlRttEntry](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_route_target) | resource |

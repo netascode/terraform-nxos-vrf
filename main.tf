@@ -179,3 +179,7 @@ resource "nxos_vrf_route_target" "rtctrlRttEntry" {
     nxos_vrf_route_target_direction.rtctrlRttP
   ]
 }
+
+resource "nxos_ipv4_vrf" "ipv4Dom" {
+  name = var.name
+}

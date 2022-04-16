@@ -1,9 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 [![Tests](https://github.com/netascode/terraform-nxos-vrf/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-nxos-vrf/actions/workflows/test.yml)
 
-# Terraform NXOS VRF Module
-
-Description
+# Terraform NX-OS VRF Module
 
 Manages NX-OS VRF
 
@@ -21,15 +19,15 @@ module "nxos_vrf" {
   vni                 = 16777210
   route_distinguisher = "1.1.1.1:1"
   address_family = {
-    "ipv4_unicast" = {
-      "route_target_both_auto"      = true
-      "route_target_both_auto_evpn" = true
-      "route_target_import"         = ["1.1.1.1:1", "65535:1", "65536:123"]
-      "route_target_export"         = ["1.1.1.1:1", "65535:1", "65536:123"]
-      "route_target_import_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
-      "route_target_export_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
+    ipv4_unicast = {
+      route_target_both_auto      = true
+      route_target_both_auto_evpn = true
+      route_target_import         = ["1.1.1.1:1", "65535:1", "65536:123"]
+      route_target_export         = ["1.1.1.1:1", "65535:1", "65536:123"]
+      route_target_import_evpn    = ["2.2.2.2:2", "65000:1", "100000:123"]
+      route_target_export_evpn    = ["2.2.2.2:2", "65000:1", "100000:123"]
     }
-    "ipv6_unicast" = {}
+    ipv6_unicast = {}
   }
 }
 ```
@@ -39,13 +37,13 @@ module "nxos_vrf" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
-| <a name="requirement_nxos"></a> [nxos](#requirement\_nxos) | >= 0.1.0 |
+| <a name="requirement_nxos"></a> [nxos](#requirement\_nxos) | >= 0.3.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | 0.3.2 |
+| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | >= 0.3.3 |
 
 ## Inputs
 
@@ -55,13 +53,14 @@ module "nxos_vrf" {
 | <a name="input_description"></a> [description](#input\_description) | VRF description. | `string` | `""` | no |
 | <a name="input_vni"></a> [vni](#input\_vni) | VRF Virtual Network Identifier | `number` | `null` | no |
 | <a name="input_route_distinguisher"></a> [route\_distinguisher](#input\_route\_distinguisher) | VRF Route Distinguisher | `string` | `null` | no |
-| <a name="input_address_family"></a> [address\_family](#input\_address\_family) | VRF Address Families. Valid values map keys are `ipv4_unicast`, `ipv6_unicast`. | <pre>map(object({<br>    route_target_both_auto      = optional(bool)<br>    route_target_both_auto_evpn = optional(bool)<br>    route_target_import         = optional(list(string))<br>    route_target_export         = optional(list(string))<br>    route_target_import_evpn    = optional(list(string))<br>    route_target_export_evpn    = optional(list(string))<br>  }))</pre> | `{}` | no |
+| <a name="input_address_family"></a> [address\_family](#input\_address\_family) | VRF Address Families. Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`. | <pre>map(object({<br>    route_target_both_auto      = optional(bool)<br>    route_target_both_auto_evpn = optional(bool)<br>    route_target_import         = optional(list(string))<br>    route_target_export         = optional(list(string))<br>    route_target_import_evpn    = optional(list(string))<br>    route_target_export_evpn    = optional(list(string))<br>  }))</pre> | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | Distinguished name of the object. |
+| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of the object. |
+| <a name="output_name"></a> [name](#output\_name) | VRF name. |
 
 ## Resources
 

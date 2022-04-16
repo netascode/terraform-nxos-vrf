@@ -1,9 +1,3 @@
-resource "nxos_vrf" "l3Inst" {
-  name        = var.name
-  description = var.description
-  encap       = var.vni != null ? "vxlan-${var.vni}" : "unknown"
-}
-
 locals {
   rd_none = var.route_distinguisher == null ? true : false
   rd_auto = var.route_distinguisher == "auto" ? true : false
@@ -16,17 +10,7 @@ locals {
         local.rd_as2 ? "rd:as2-nn2:${var.route_distinguisher}" : (
           local.rd_as4 ? "rd:as4-nn2:${var.route_distinguisher}" : "unexpected_rd_format"
   ))))
-}
 
-resource "nxos_vrf_routing" "rtctrlDom" {
-  vrf                 = var.name
-  route_distinguisher = local.rd_dme_format
-  depends_on = [
-    nxos_vrf.l3Inst
-  ]
-}
-
-locals {
   address_family_names_map = {
     "ipv4_unicast" : "ipv4-ucast"
     "ipv6_unicast" : "ipv6-ucast"
@@ -131,6 +115,20 @@ locals {
         }
       ]
   ]) : entry.key => entry }
+}
+
+resource "nxos_vrf" "l3Inst" {
+  name        = var.name
+  description = var.description
+  encap       = var.vni != null ? "vxlan-${var.vni}" : "unknown"
+}
+
+resource "nxos_vrf_routing" "rtctrlDom" {
+  vrf                 = var.name
+  route_distinguisher = local.rd_dme_format
+  depends_on = [
+    nxos_vrf.l3Inst
+  ]
 }
 
 resource "nxos_vrf_address_family" "rtctrlDomAf" {

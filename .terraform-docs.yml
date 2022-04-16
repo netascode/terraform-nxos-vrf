@@ -5,9 +5,7 @@ formatter: markdown table
 content: |-
   [![Tests](https://github.com/netascode/terraform-nxos-vrf/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-nxos-vrf/actions/workflows/test.yml)
 
-  # Terraform NXOS VRF Module
-
-  Description
+  # Terraform NX-OS VRF Module
 
   Manages NX-OS VRF
 

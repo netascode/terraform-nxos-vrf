@@ -1,29 +1,3 @@
-# variable "id" {
-#   description = "Interface ID. Must match first field in the output of `show intf brief`. Example: `eth1/1`."
-#   type        = string
-# }
-
-# variable "description" {
-#   description = "Interface description."
-#   type        = string
-#   default     = ""
-
-#   validation {
-#     condition     = can(regex("^.{0,254}$", var.description))
-#     error_message = " Maximum characters: 254."
-#   }
-# }
-
-# variable "mode" {
-#   description = "Interface mode. Choices: `access`, `trunk`, `fex-fabric`, `dot1q-tunnel`, `promiscuous`, `host`, `trunk_secondary`, `trunk_promiscuous`, `vntag`."
-#   type        = string
-#   default     = "access"
-
-#   validation {
-#     condition     = contains(["access", "trunk", "fex-fabric", "dot1q-tunnel", "promiscuous", "host", "trunk_secondary", "trunk_promiscuous", "vntag"], var.mode)
-#     error_message = "Valid values are `access`, `trunk`, `fex-fabric`, `dot1q-tunnel`, `promiscuous`, `host`, `trunk_secondary`, `trunk_promiscuous` or `vntag`."
-#   }
-# }
 variable "name" {
   description = "VRF Name."
   type        = string
@@ -68,7 +42,7 @@ variable "route_distinguisher" {
 }
 
 variable "address_family" {
-  description = "VRF Address Families. Valid values map keys are `ipv4_unicast`, `ipv6_unicast`."
+  description = "VRF Address Families. Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`."
   type = map(object({
     route_target_both_auto      = optional(bool)
     route_target_both_auto_evpn = optional(bool)
@@ -83,7 +57,7 @@ variable "address_family" {
     condition = alltrue([
       for k, v in var.address_family : contains(["ipv4_unicast", "ipv6_unicast"], k)
     ])
-    error_message = "`address_family`: Valid values map keys are `ipv4_unicast`, `ipv6_unicast`."
+    error_message = "`address_family`: Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`."
   }
 
   validation {

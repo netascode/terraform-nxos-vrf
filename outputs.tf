@@ -1,9 +1,9 @@
-output "id" {
+output "dn" {
   value       = nxos_vrf.l3Inst.id
   description = "Distinguished name of the object."
 }
 
-# output "id" {
-#   value       = nxos_vrf.l3Inst.content.id
-#   description = "Interface ID."
-# }
+output "name" {
+  value       = nxos_vrf.l3Inst.name
+  description = "VRF name."
+}

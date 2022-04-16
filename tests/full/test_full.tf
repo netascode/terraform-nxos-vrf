@@ -6,16 +6,19 @@ terraform {
 
     nxos = {
       source  = "netascode/nxos"
-      version = ">=0.3.2"
+      version = ">=0.3.3"
     }
   }
 }
 
 # requirement
-resource "nxos_feature_bgp" "example" {
+resource "nxos_feature_bgp" "bgp" {
   admin_state = "enabled"
 }
 
+resource "nxos_feature_evpn" "evpn" {
+  admin_state = "enabled"
+}
 
 module "main" {
   source = "../.."
@@ -25,18 +28,19 @@ module "main" {
   vni                 = 16777210
   route_distinguisher = "1.1.1.1:1"
   address_family = {
-    "ipv4_unicast" = {
-      "route_target_both_auto"      = true
-      "route_target_both_auto_evpn" = true
-      "route_target_import"         = ["1.1.1.1:1", "65535:1", "65536:123"]
-      "route_target_export"         = ["1.1.1.1:1", "65535:1", "65536:123"]
-      "route_target_import_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
-      "route_target_export_evpn"    = ["2.2.2.2:2", "65000:1", "100000:123"]
+    ipv4_unicast = {
+      route_target_both_auto      = true
+      route_target_both_auto_evpn = true
+      route_target_import         = ["1.1.1.1:1", "65535:1", "65536:123"]
+      route_target_export         = ["1.1.1.1:1", "65535:1", "65536:123"]
+      route_target_import_evpn    = ["2.2.2.2:2", "65000:1", "100000:123"]
+      route_target_export_evpn    = ["2.2.2.2:2", "65000:1", "100000:123"]
     }
-    "ipv6_unicast" = {}
+    ipv6_unicast = {}
   }
   depends_on = [
-    nxos_feature_bgp.example
+    nxos_feature_bgp.bgp,
+    nxos_feature_evpn.evpn
   ]
 }
 

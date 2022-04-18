@@ -118,12 +118,14 @@ locals {
 }
 
 resource "nxos_vrf" "l3Inst" {
+  count       = var.name == "default" ? 0 : 1 # l3Inst is always present for default VRF, can not be deleted
   name        = var.name
   description = var.description
   encap       = var.vni != null ? "vxlan-${var.vni}" : "unknown"
 }
 
 resource "nxos_vrf_routing" "rtctrlDom" {
+  count               = var.name == "default" ? 0 : 1 # no need to create for default VRF
   vrf                 = var.name
   route_distinguisher = local.rd_dme_format
   depends_on = [

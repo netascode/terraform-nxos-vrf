@@ -43,7 +43,7 @@ module "nxos_vrf" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | >= 0.3.3 |
+| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | 0.3.3 |
 
 ## Inputs
 

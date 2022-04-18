@@ -1,9 +1,9 @@
 output "dn" {
-  value       = nxos_vrf.l3Inst.id
+  value       = var.name == "default" ? "sys/inst-${var.name}" : nxos_vrf.l3Inst[0].id
   description = "Distinguished name of the object."
 }
 
 output "name" {
-  value       = nxos_vrf.l3Inst.name
+  value       = var.name == "default" ? var.name : nxos_vrf.l3Inst[0].name
   description = "VRF name."
 }

@@ -1,9 +1,9 @@
 output "dn" {
-  value       = nxos_vrf.l3Inst.id
+  value       = "sys/inst-${var.name}"
   description = "Distinguished name of the object."
 }
 
 output "name" {
-  value       = nxos_vrf.l3Inst.name
+  value       = var.name
   description = "VRF name."
 }

@@ -15,23 +15,23 @@ variable "description" {
 
   validation {
     condition     = can(regex("^.{0,254}$", var.description))
-    error_message = "Maximum characters: 254."
+    error_message = "Maximum characters: `254`."
   }
 }
 
 variable "vni" {
-  description = "VRF Virtual Network Identifier"
+  description = "VRF Virtual Network Identifier."
   type        = number
   default     = null
 
   validation {
     condition     = var.vni == null || try(var.vni >= 1 && var.vni <= 16777214, false)
-    error_message = "Minimum value: 1. Maximum value: 16777214."
+    error_message = "Minimum value: `1`. Maximum value: `16777214`."
   }
 }
 
 variable "route_distinguisher" {
-  description = "VRF Route Distinguisher"
+  description = "VRF Route Distinguisher."
   type        = string
   default     = null
 

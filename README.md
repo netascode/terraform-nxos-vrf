@@ -43,7 +43,7 @@ module "nxos_vrf" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | >= 0.3.3 |
+| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | 0.3.3 |
 
 ## Inputs
 
@@ -51,8 +51,8 @@ module "nxos_vrf" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input\_name) | VRF Name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | VRF description. | `string` | `""` | no |
-| <a name="input_vni"></a> [vni](#input\_vni) | VRF Virtual Network Identifier | `number` | `null` | no |
-| <a name="input_route_distinguisher"></a> [route\_distinguisher](#input\_route\_distinguisher) | VRF Route Distinguisher | `string` | `null` | no |
+| <a name="input_vni"></a> [vni](#input\_vni) | VRF Virtual Network Identifier. | `number` | `null` | no |
+| <a name="input_route_distinguisher"></a> [route\_distinguisher](#input\_route\_distinguisher) | VRF Route Distinguisher. | `string` | `null` | no |
 | <a name="input_address_family"></a> [address\_family](#input\_address\_family) | VRF Address Families. Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`. | <pre>map(object({<br>    route_target_both_auto      = optional(bool)<br>    route_target_both_auto_evpn = optional(bool)<br>    route_target_import         = optional(list(string))<br>    route_target_export         = optional(list(string))<br>    route_target_import_evpn    = optional(list(string))<br>    route_target_export_evpn    = optional(list(string))<br>  }))</pre> | `{}` | no |
 
 ## Outputs

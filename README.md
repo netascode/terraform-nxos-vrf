@@ -49,6 +49,7 @@ module "nxos_vrf" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_device"></a> [device](#input\_device) | A device name from the provider configuration. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | VRF Name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | VRF description. | `string` | `""` | no |
 | <a name="input_vni"></a> [vni](#input\_vni) | VRF Virtual Network Identifier. | `number` | `null` | no |

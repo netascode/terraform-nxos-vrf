@@ -119,6 +119,7 @@ locals {
 
 resource "nxos_vrf" "l3Inst" {
   count       = var.name == "default" ? 0 : 1 # l3Inst is always present for default VRF, can not be deleted
+  device      = var.device
   name        = var.name
   description = var.description
   encap       = var.vni != null ? "vxlan-${var.vni}" : "unknown"
@@ -126,6 +127,7 @@ resource "nxos_vrf" "l3Inst" {
 
 resource "nxos_vrf_routing" "rtctrlDom" {
   count               = var.name == "default" ? 0 : 1 # no need to create for default VRF
+  device              = var.device
   vrf                 = var.name
   route_distinguisher = local.rd_dme_format
   depends_on = [
@@ -135,6 +137,7 @@ resource "nxos_vrf_routing" "rtctrlDom" {
 
 resource "nxos_vrf_address_family" "rtctrlDomAf" {
   for_each       = local.address_family_with_defaults
+  device         = var.device
   vrf            = var.name
   address_family = each.key
   depends_on = [
@@ -149,6 +152,7 @@ resource "nxos_vrf_route_target_address_family" "rtctrlAfCtrl" {
       "address_family_rt" = split("_", entry)[1]
     }
   }
+  device                      = var.device
   vrf                         = var.name
   address_family              = each.value.address_family
   route_target_address_family = each.value.address_family_rt
@@ -159,6 +163,7 @@ resource "nxos_vrf_route_target_address_family" "rtctrlAfCtrl" {
 
 resource "nxos_vrf_route_target_direction" "rtctrlRttP" {
   for_each                    = local.address_family_map
+  device                      = var.device
   vrf                         = var.name
   address_family              = each.value.address_family
   route_target_address_family = each.value.address_family_rt
@@ -170,6 +175,7 @@ resource "nxos_vrf_route_target_direction" "rtctrlRttP" {
 
 resource "nxos_vrf_route_target" "rtctrlRttEntry" {
   for_each                    = local.address_family_flat_dme
+  device                      = var.device
   vrf                         = var.name
   address_family              = each.value.address_family
   route_target_address_family = each.value.address_family_rt
@@ -181,5 +187,6 @@ resource "nxos_vrf_route_target" "rtctrlRttEntry" {
 }
 
 resource "nxos_ipv4_vrf" "ipv4Dom" {
-  name = var.name
+  device = var.device
+  name   = var.name
 }

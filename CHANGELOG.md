@@ -1,4 +1,4 @@
-## 0.1.1 (unrelease)
+## 0.1.1
 
 - Add device variable
 

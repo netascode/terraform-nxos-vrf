@@ -18,7 +18,7 @@ locals {
   # set default values for the map
   # change map key
   address_family_with_defaults = {
-    for key, value in var.address_family : local.address_family_names_map[key] => {
+    for value in var.address_families : local.address_family_names_map[value.address_family] => {
       "route_target_both_auto"      = value.route_target_both_auto != null ? value.route_target_both_auto : false
       "route_target_both_auto_evpn" = value.route_target_both_auto_evpn != null ? value.route_target_both_auto_evpn : false
       "route_target_import"         = value.route_target_import != null ? value.route_target_import : []

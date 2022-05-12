@@ -1,4 +1,4 @@
-## 0.1.2 (unreleased)
+## 0.1.2
 
 - BREAKING CHANGE: Use list of address families instead of map
 

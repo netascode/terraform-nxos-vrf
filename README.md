@@ -18,17 +18,20 @@ module "nxos_vrf" {
   description         = "My Description"
   vni                 = 16777210
   route_distinguisher = "1.1.1.1:1"
-  address_family = {
-    ipv4_unicast = {
+  address_families = [
+    {
+      address_family              = "ipv4_unicast"
       route_target_both_auto      = true
       route_target_both_auto_evpn = true
       route_target_import         = ["1.1.1.1:1", "65535:1", "65536:123"]
       route_target_export         = ["1.1.1.1:1", "65535:1", "65536:123"]
       route_target_import_evpn    = ["2.2.2.2:2", "65000:1", "100000:123"]
       route_target_export_evpn    = ["2.2.2.2:2", "65000:1", "100000:123"]
+    },
+    {
+      address_family = "ipv6_unicast"
     }
-    ipv6_unicast = {}
-  }
+  ]
 }
 ```
 
@@ -53,8 +56,8 @@ module "nxos_vrf" {
 | <a name="input_name"></a> [name](#input\_name) | VRF Name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | VRF description. | `string` | `""` | no |
 | <a name="input_vni"></a> [vni](#input\_vni) | VRF Virtual Network Identifier. | `number` | `null` | no |
-| <a name="input_route_distinguisher"></a> [route\_distinguisher](#input\_route\_distinguisher) | VRF Route Distinguisher. | `string` | `null` | no |
-| <a name="input_address_family"></a> [address\_family](#input\_address\_family) | VRF Address Families. Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`. | <pre>map(object({<br>    route_target_both_auto      = optional(bool)<br>    route_target_both_auto_evpn = optional(bool)<br>    route_target_import         = optional(list(string))<br>    route_target_export         = optional(list(string))<br>    route_target_import_evpn    = optional(list(string))<br>    route_target_export_evpn    = optional(list(string))<br>  }))</pre> | `{}` | no |
+| <a name="input_route_distinguisher"></a> [route\_distinguisher](#input\_route\_distinguisher) | VRF Route Distinguisher. Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`. | `string` | `null` | no |
+| <a name="input_address_families"></a> [address\_families](#input\_address\_families) | VRF Address Families List.<br>  Choices `address_family`: `ipv4_unicast`, `ipv6_unicast`.<br>  Allowed formats `route_target_import`: `auto`, `1.1.1.1:1`, `65535:1`."<br>  Allowed formats `route_target_export`: `auto`, `1.1.1.1:1`, `65535:1`."<br>  Allowed formats `route_target_import_evpn`: `auto`, `1.1.1.1:1`, `65535:1`."<br>  Allowed formats `route_target_export_evpn`: `auto`, `1.1.1.1:1`, `65535:1`." | <pre>list(object({<br>    address_family              = string<br>    route_target_both_auto      = optional(bool)<br>    route_target_both_auto_evpn = optional(bool)<br>    route_target_import         = optional(list(string))<br>    route_target_export         = optional(list(string))<br>    route_target_import_evpn    = optional(list(string))<br>    route_target_export_evpn    = optional(list(string))<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 

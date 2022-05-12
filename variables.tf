@@ -37,7 +37,7 @@ variable "vni" {
 }
 
 variable "route_distinguisher" {
-  description = "VRF Route Distinguisher."
+  description = "VRF Route Distinguisher. Allowed formats: `auto`, `1.1.1.1:1`, `65535:1`."
   type        = string
   default     = null
 
@@ -47,9 +47,17 @@ variable "route_distinguisher" {
   }
 }
 
-variable "address_family" {
-  description = "VRF Address Families. Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`."
-  type = map(object({
+variable "address_families" {
+  description = <<EOT
+  VRF Address Families List.
+  Choices `address_family`: `ipv4_unicast`, `ipv6_unicast`.
+  Allowed formats `route_target_import`: `auto`, `1.1.1.1:1`, `65535:1`."
+  Allowed formats `route_target_export`: `auto`, `1.1.1.1:1`, `65535:1`."
+  Allowed formats `route_target_import_evpn`: `auto`, `1.1.1.1:1`, `65535:1`."
+  Allowed formats `route_target_export_evpn`: `auto`, `1.1.1.1:1`, `65535:1`."
+  EOT
+  type = list(object({
+    address_family              = string
     route_target_both_auto      = optional(bool)
     route_target_both_auto_evpn = optional(bool)
     route_target_import         = optional(list(string))
@@ -57,18 +65,18 @@ variable "address_family" {
     route_target_import_evpn    = optional(list(string))
     route_target_export_evpn    = optional(list(string))
   }))
-  default = {}
+  default = []
 
   validation {
     condition = alltrue([
-      for k, v in var.address_family : contains(["ipv4_unicast", "ipv6_unicast"], k)
+      for v in var.address_families : contains(["ipv4_unicast", "ipv6_unicast"], v.address_family)
     ])
-    error_message = "`address_family`: Valid values of map keys are `ipv4_unicast`, `ipv6_unicast`."
+    error_message = "`address_family`: Allowed values are: `ipv4_unicast` or `ipv6_unicast`."
   }
 
   validation {
     condition = alltrue(flatten([
-      for k, v in var.address_family : v.route_target_import == null ? [true] : [
+      for v in var.address_families : v.route_target_import == null ? [true] : [
         for entry in v.route_target_import : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
       ]
     ]))
@@ -77,7 +85,7 @@ variable "address_family" {
 
   validation {
     condition = alltrue(flatten([
-      for k, v in var.address_family : v.route_target_export == null ? [true] : [
+      for v in var.address_families : v.route_target_export == null ? [true] : [
         for entry in v.route_target_export : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
       ]
     ]))
@@ -86,7 +94,7 @@ variable "address_family" {
 
   validation {
     condition = alltrue(flatten([
-      for k, v in var.address_family : v.route_target_import_evpn == null ? [true] : [
+      for v in var.address_families : v.route_target_import_evpn == null ? [true] : [
         for entry in v.route_target_import_evpn : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
       ]
     ]))
@@ -95,7 +103,7 @@ variable "address_family" {
 
   validation {
     condition = alltrue(flatten([
-      for k, v in var.address_family : v.route_target_export_evpn == null ? [true] : [
+      for v in var.address_families : v.route_target_export_evpn == null ? [true] : [
         for entry in v.route_target_export_evpn : entry == "auto" || can(regex("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+", entry)) || can(regex("\\d+:\\d+", entry))
       ]
     ]))

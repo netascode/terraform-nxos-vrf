@@ -1,6 +1,6 @@
 module "nxos_vrf" {
   source  = "netascode/vrf/nxos"
-  version = ">= 0.0.1"
+  version = ">= 0.2.0"
 
   name                = "VRF1"
   description         = "My Description"

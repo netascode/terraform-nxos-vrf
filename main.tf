@@ -19,12 +19,12 @@ locals {
   # change map key
   address_family_with_defaults = {
     for value in var.address_families : local.address_family_names_map[value.address_family] => {
-      "route_target_both_auto"      = value.route_target_both_auto != null ? value.route_target_both_auto : false
-      "route_target_both_auto_evpn" = value.route_target_both_auto_evpn != null ? value.route_target_both_auto_evpn : false
-      "route_target_import"         = value.route_target_import != null ? value.route_target_import : []
-      "route_target_export"         = value.route_target_export != null ? value.route_target_export : []
-      "route_target_import_evpn"    = value.route_target_import_evpn != null ? value.route_target_import_evpn : []
-      "route_target_export_evpn"    = value.route_target_export_evpn != null ? value.route_target_export_evpn : []
+      "route_target_both_auto"      = value.route_target_both_auto
+      "route_target_both_auto_evpn" = value.route_target_both_auto_evpn
+      "route_target_import"         = value.route_target_import
+      "route_target_export"         = value.route_target_export
+      "route_target_import_evpn"    = value.route_target_import_evpn
+      "route_target_export_evpn"    = value.route_target_export_evpn
     }
   }
 

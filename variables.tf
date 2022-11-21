@@ -58,12 +58,12 @@ variable "address_families" {
   EOT
   type = list(object({
     address_family              = string
-    route_target_both_auto      = optional(bool)
-    route_target_both_auto_evpn = optional(bool)
-    route_target_import         = optional(list(string))
-    route_target_export         = optional(list(string))
-    route_target_import_evpn    = optional(list(string))
-    route_target_export_evpn    = optional(list(string))
+    route_target_both_auto      = optional(bool, false)
+    route_target_both_auto_evpn = optional(bool, false)
+    route_target_import         = optional(list(string), [])
+    route_target_export         = optional(list(string), [])
+    route_target_import_evpn    = optional(list(string), [])
+    route_target_export_evpn    = optional(list(string), [])
   }))
   default = []
 

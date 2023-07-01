@@ -40,13 +40,13 @@ module "nxos_vrf" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_nxos"></a> [nxos](#requirement\_nxos) | >= 0.3.3 |
+| <a name="requirement_nxos"></a> [nxos](#requirement\_nxos) | >= 0.5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | >= 0.3.3 |
+| <a name="provider_nxos"></a> [nxos](#provider\_nxos) | >= 0.5.0 |
 
 ## Inputs
 
@@ -70,11 +70,11 @@ module "nxos_vrf" {
 
 | Name | Type |
 |------|------|
-| [nxos_ipv4_vrf.ipv4Dom](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/ipv4_vrf) | resource |
-| [nxos_vrf.l3Inst](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf) | resource |
-| [nxos_vrf_address_family.rtctrlDomAf](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_address_family) | resource |
-| [nxos_vrf_route_target.rtctrlRttEntry](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_route_target) | resource |
-| [nxos_vrf_route_target_address_family.rtctrlAfCtrl](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_route_target_address_family) | resource |
-| [nxos_vrf_route_target_direction.rtctrlRttP](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_route_target_direction) | resource |
-| [nxos_vrf_routing.rtctrlDom](https://registry.terraform.io/providers/netascode/nxos/latest/docs/resources/vrf_routing) | resource |
+| [nxos_ipv4_vrf.ipv4Dom](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/ipv4_vrf) | resource |
+| [nxos_vrf.l3Inst](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/vrf) | resource |
+| [nxos_vrf_address_family.rtctrlDomAf](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/vrf_address_family) | resource |
+| [nxos_vrf_route_target.rtctrlRttEntry](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/vrf_route_target) | resource |
+| [nxos_vrf_route_target_address_family.rtctrlAfCtrl](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/vrf_route_target_address_family) | resource |
+| [nxos_vrf_route_target_direction.rtctrlRttP](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/vrf_route_target_direction) | resource |
+| [nxos_vrf_routing.rtctrlDom](https://registry.terraform.io/providers/CiscoDevNet/nxos/latest/docs/resources/vrf_routing) | resource |
 <!-- END_TF_DOCS -->
